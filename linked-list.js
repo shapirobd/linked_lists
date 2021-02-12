@@ -47,115 +47,150 @@ class LinkedList {
 	/** pop(): return & remove last item. */
 
 	pop() {
-		let currentNode = this.head;
-		let nodeToPop = this.tail;
-		if (this.head === this.tail) {
-			this.head = null;
-			this.tail = null;
-			this.length -= 1;
-			return nodeToPop.val;
-		}
-		while (currentNode.next) {
-			if (currentNode.next !== nodeToPop) {
-				currentNode = currentNode.next;
-			} else {
-				currentNode.next = null;
-				this.tail = currentNode;
+		try {
+			if (this.length === 0) {
+				throw new Error("Error: Empty list");
+			}
+			let currentNode = this.head;
+			let nodeToPop = this.tail;
+			if (this.head === this.tail) {
+				this.head = null;
+				this.tail = null;
 				this.length -= 1;
 				return nodeToPop.val;
 			}
+			while (currentNode.next) {
+				if (currentNode.next !== nodeToPop) {
+					currentNode = currentNode.next;
+				} else {
+					currentNode.next = null;
+					this.tail = currentNode;
+					this.length -= 1;
+					return nodeToPop.val;
+				}
+			}
+		} catch (e) {
+			console.error(e);
 		}
 	}
 
 	/** shift(): return & remove first item. */
 
 	shift() {
-		let nodeToShift = this.head;
-		if (this.head === this.tail) {
-			this.head = null;
-			this.tail = null;
+		try {
+			if (this.length === 0) {
+				throw new Error("Error: Empty list");
+			}
+			let nodeToShift = this.head;
+			if (this.head === this.tail) {
+				this.head = null;
+				this.tail = null;
+				this.length -= 1;
+				return nodeToShift.val;
+			}
+			this.head = this.head.next;
+			nodeToShift.next = null;
 			this.length -= 1;
 			return nodeToShift.val;
+		} catch (e) {
+			console.error(e);
 		}
-		this.head = this.head.next;
-		nodeToShift.next = null;
-		this.length -= 1;
-		return nodeToShift.val;
 	}
 
 	/** getAt(idx): get val at idx. */
 
 	getAt(idx) {
-		let currentNode = this.head;
-		for (let i = 0; i <= idx; i++) {
-			if (i === idx) {
-				return currentNode.val;
+		try {
+			let currentNode = this.head;
+			for (let i = 0; i <= idx; i++) {
+				if (i === idx) {
+					return currentNode.val;
+				}
+				currentNode = currentNode.next;
 			}
-			currentNode = currentNode.next;
+			throw new Error("Error: Invalid index");
+		} catch (e) {
+			console.error(e);
 		}
 	}
 
 	/** setAt(idx, val): set val at idx to val */
 
 	setAt(idx, val) {
-		let currentNode = this.head;
-		for (let i = 0; i <= idx; i++) {
-			if (i === idx) {
-				currentNode.val = val;
+		try {
+			let currentNode = this.head;
+			for (let i = 0; i <= idx; i++) {
+				if (i === idx) {
+					currentNode.val = val;
+					return;
+				}
+				currentNode = currentNode.next;
 			}
-			currentNode = currentNode.next;
+			throw new Error("Error: Invalid index");
+		} catch (e) {
+			console.error(e);
 		}
 	}
 
 	/** insertAt(idx, val): add node w/val before idx. */
 
 	insertAt(idx, val) {
-		if (this.length === 0) {
-			this.push(val);
-			return;
-		}
-		const insertedNode = new Node(val);
-		if (idx === 0) {
-			insertedNode.next = this.head;
-			this.head = insertedNode;
-			return;
-		}
-		let currentNode = this.head;
-		for (let i = 0; i < idx; i++) {
-			if (i === idx - 1) {
-				if (!currentNode.next) {
-					this.tail.next = insertedNode;
-					this.tail = insertedNode;
-				} else {
-					insertedNode.next = currentNode.next;
-					currentNode.next = insertedNode;
-				}
-				this.length += 1;
+		try {
+			if (this.length === 0) {
+				this.push(val);
 				return;
-			} else {
-				currentNode = currentNode.next;
 			}
+			const insertedNode = new Node(val);
+			if (idx === 0) {
+				insertedNode.next = this.head;
+				this.head = insertedNode;
+				return;
+			}
+			let currentNode = this.head;
+			for (let i = 0; i < idx; i++) {
+				if (i === idx - 1) {
+					if (!currentNode.next) {
+						this.tail.next = insertedNode;
+						this.tail = insertedNode;
+					} else {
+						insertedNode.next = currentNode.next;
+						currentNode.next = insertedNode;
+					}
+					this.length += 1;
+					return;
+				} else {
+					currentNode = currentNode.next;
+				}
+			}
+			throw new Error("Error: Invalid index");
+		} catch (e) {
+			console.error(e);
 		}
 	}
 
 	/** removeAt(idx): return & remove item at idx, */
 
 	removeAt(idx) {
-		let currentNode = this.head;
-		if (idx === 0) {
-			return this.shift();
-		}
-		for (let i = 0; i < idx; i++) {
-			if (i === idx - 1) {
-				const removedNode = currentNode.next;
-				if (removedNode === this.tail) {
-					this.tail = currentNode;
-				}
-				currentNode.next = currentNode.next.next;
-				this.length -= 1;
-				return removedNode.val;
+		try {
+			let currentNode = this.head;
+			if (idx === 0) {
+				return this.shift();
 			}
-			currentNode = currentNode.next;
+			for (let i = 0; i < idx; i++) {
+				if (i === idx - 1) {
+					const removedNode = currentNode.next;
+					if (removedNode === this.tail) {
+						this.tail = currentNode;
+					}
+					currentNode.next = currentNode.next.next;
+					this.length -= 1;
+					return removedNode.val;
+				}
+				currentNode = currentNode.next;
+			}
+			throw new Error("Error: Invalid index");
+		} catch (e) {
+			console.error(e);
 		}
 	}
 
