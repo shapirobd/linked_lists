@@ -1,8 +1,8 @@
-const LinkedList = require("./linked-list");
+const DoublyLinkedList = require("./doubly-linked-list");
 
 describe("push", function () {
 	it("appends node and increments length", function () {
-		let lst = new LinkedList();
+		let lst = new DoublyLinkedList();
 
 		lst.push(5);
 		expect(lst.length).toBe(1);
@@ -14,6 +14,7 @@ describe("push", function () {
 		expect(lst.head.val).toBe(5);
 		expect(lst.head.next.val).toBe(10);
 		expect(lst.tail.val).toBe(10);
+		expect(lst.tail.prev.val).toBe(5);
 
 		lst.push(15);
 		expect(lst.length).toBe(3);
@@ -25,7 +26,7 @@ describe("push", function () {
 
 describe("unshift", function () {
 	it("adds node at start and increments length", function () {
-		let lst = new LinkedList();
+		let lst = new DoublyLinkedList();
 
 		lst.unshift(5);
 		expect(lst.length).toBe(1);
@@ -36,6 +37,7 @@ describe("unshift", function () {
 		expect(lst.length).toBe(2);
 		expect(lst.head.val).toBe(10);
 		expect(lst.head.next.val).toBe(5);
+		expect(lst.head.next.prev.val).toBe(10);
 		expect(lst.tail.val).toBe(5);
 
 		lst.unshift(15);
@@ -48,11 +50,12 @@ describe("unshift", function () {
 
 describe("pop", function () {
 	it("removes node at end and decrements length", function () {
-		let lst = new LinkedList([5, 10]);
+		let lst = new DoublyLinkedList([5, 10]);
 
 		expect(lst.pop()).toBe(10);
 		expect(lst.head.val).toBe(5);
 		expect(lst.tail.val).toBe(5);
+		expect(lst.tail.next).toBe(null);
 		expect(lst.length).toBe(1);
 
 		expect(lst.pop()).toBe(5);
@@ -64,7 +67,7 @@ describe("pop", function () {
 
 describe("shift", function () {
 	it("removes node at start and decrements length", function () {
-		let lst = new LinkedList([5, 10]);
+		let lst = new DoublyLinkedList([5, 10]);
 
 		expect(lst.shift()).toBe(5);
 		expect(lst.tail.val).toBe(10);
@@ -79,7 +82,7 @@ describe("shift", function () {
 
 describe("getAt", function () {
 	it("gets val at index", function () {
-		let lst = new LinkedList([5, 10]);
+		let lst = new DoublyLinkedList([5, 10]);
 
 		expect(lst.getAt(0)).toBe(5);
 		expect(lst.getAt(1)).toBe(10);
@@ -88,7 +91,7 @@ describe("getAt", function () {
 
 describe("setAt", function () {
 	it("sets val at index", function () {
-		let lst = new LinkedList([5, 10]);
+		let lst = new DoublyLinkedList([5, 10]);
 
 		expect(lst.setAt(0, 1));
 		expect(lst.setAt(1, 2));
@@ -99,7 +102,7 @@ describe("setAt", function () {
 
 describe("insertAt", function () {
 	it("inserts node and adjusts nearby nodes", function () {
-		let lst = new LinkedList([5, 10, 15, 20]);
+		let lst = new DoublyLinkedList([5, 10, 15, 20]);
 
 		lst.insertAt(2, 12);
 		expect(lst.length).toBe(5);
@@ -115,7 +118,7 @@ describe("insertAt", function () {
 	});
 
 	it("inserts into empty list", function () {
-		let lst = new LinkedList();
+		let lst = new DoublyLinkedList();
 
 		lst.insertAt(0, 5);
 		expect(lst.length).toBe(1);
@@ -126,7 +129,7 @@ describe("insertAt", function () {
 
 describe("removeAt", function () {
 	it("removes from 1-item list", function () {
-		let lst = new LinkedList(["a"]);
+		let lst = new DoublyLinkedList(["a"]);
 
 		lst.removeAt(0);
 		expect(lst.length).toBe(0);
@@ -137,12 +140,12 @@ describe("removeAt", function () {
 
 describe("average", function () {
 	it("calculates the average of items in a list", function () {
-		let lst = new LinkedList([2, 3, 1, 1, 7, 6, 9]);
+		let lst = new DoublyLinkedList([2, 3, 1, 1, 7, 6, 9]);
 		expect(lst.average()).toBeCloseTo(4.1429, 4);
 	});
 
 	it("returns 0 for empty lists", function () {
-		let lst = new LinkedList();
+		let lst = new DoublyLinkedList();
 		expect(lst.average()).toBe(0);
 	});
 });
